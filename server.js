@@ -37,11 +37,21 @@ setTimeout(() => {
     const url = new URL(req.url, 'http://localhost');
     const pathname = url.pathname;
 
+    // Redirect root to /battlegrid
+    if (pathname === '/') {
+      res.writeHead(302, { Location: '/battlegrid' });
+      res.end();
+      return;
+    }
+
     // Route to appropriate game based on path
     let targetPort = ports.battlegrid;
-    let targetPath = pathname;
+    let targetPath = '/';
 
-    if (pathname.startsWith('/kings')) {
+    if (pathname.startsWith('/battlegrid')) {
+      targetPort = ports.battlegrid;
+      targetPath = pathname.substring(11) || '/';
+    } else if (pathname.startsWith('/kings')) {
       targetPort = ports.kings;
       targetPath = pathname.substring(6) || '/';
     } else if (pathname.startsWith('/pieces')) {
@@ -66,21 +76,21 @@ setTimeout(() => {
         proxyRes.on('end', () => {
           // Update NAV URLs to use path-based routing
           const baseUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
-          data = data.replace(/'http:\/\/localhost:3000'/g, `'${baseUrl}'`);
+          data = data.replace(/'http:\/\/localhost:3000'/g, `'${baseUrl}/battlegrid'`);
           data = data.replace(/'http:\/\/localhost:3001'/g, `'${baseUrl}/kings'`);
           data = data.replace(/'http:\/\/localhost:3002'/g, `'${baseUrl}/pieces'`);
-          data = data.replace(/https:\/\/moomoochess-battlegrid\.onrender\.com/g, baseUrl);
+          data = data.replace(/https:\/\/moomoochess-battlegrid\.onrender\.com/g, `${baseUrl}/battlegrid`);
           data = data.replace(/https:\/\/moomoochess-kings\.onrender\.com/g, `${baseUrl}/kings`);
           data = data.replace(/https:\/\/moomoochess-pieces\.onrender\.com/g, `${baseUrl}/pieces`);
 
           // Update WebSocket URL to use the current host with the correct path
           const wsBase = baseUrl.replace(/^https?:/, process.env.RENDER_EXTERNAL_URL ? 'wss:' : 'ws:');
-          if (targetPort === ports.kings) {
+          if (targetPort === ports.battlegrid) {
+            data = data.replace(/window\.__WS_URL__ = "[^"]*"/g, `window.__WS_URL__ = "${wsBase}/battlegrid"`);
+          } else if (targetPort === ports.kings) {
             data = data.replace(/window\.__WS_URL__ = "[^"]*"/g, `window.__WS_URL__ = "${wsBase}/kings"`);
           } else if (targetPort === ports.pieces) {
             data = data.replace(/window\.__WS_URL__ = "[^"]*"/g, `window.__WS_URL__ = "${wsBase}/pieces"`);
-          } else {
-            data = data.replace(/window\.__WS_URL__ = "[^"]*"/g, `window.__WS_URL__ = "${wsBase}"`);
           }
 
           res.writeHead(proxyRes.statusCode, proxyRes.headers);
@@ -108,12 +118,19 @@ setTimeout(() => {
     let targetPort = ports.battlegrid;
     let targetPath = '/ws';
 
-    if (pathname.startsWith('/kings')) {
+    if (pathname.startsWith('/battlegrid')) {
+      targetPort = ports.battlegrid;
+      targetPath = pathname.substring(11) || '/ws';
+    } else if (pathname.startsWith('/kings')) {
       targetPort = ports.kings;
       targetPath = pathname.substring(6) || '/ws';
     } else if (pathname.startsWith('/pieces')) {
       targetPort = ports.pieces;
       targetPath = pathname.substring(7) || '/ws';
+    } else {
+      // Default to battlegrid
+      targetPort = ports.battlegrid;
+      targetPath = '/ws';
     }
 
     const proxyReq = http.request({
@@ -143,7 +160,7 @@ setTimeout(() => {
 
   server.listen(PORT, () => {
     console.log(`Proxy server listening on port ${PORT}`);
-    console.log(`Battle Grid: http://localhost:${PORT}/`);
+    console.log(`Battle Grid: http://localhost:${PORT}/battlegrid`);
     console.log(`Battle of the Kings: http://localhost:${PORT}/kings`);
     console.log(`Pieces with Pieces: http://localhost:${PORT}/pieces`);
   });

@@ -3262,7 +3262,7 @@ function bootClassic() {
   if (usePathRouting) {
     // Under proxy server, use path-based routing
     NAV = [
-      ['battlegrid', 'Battle Grid', '', 'p', 0],
+      ['battlegrid', 'Battle Grid', '/battlegrid', 'p', 0],
       ['kings', 'Battle of the Kings', '/kings', 'k', 0],
       ['pieces', 'Pieces with Pieces', '/pieces', 'n', 0],
       ['superchess', 'Super Chess', '', 'q', 1]
