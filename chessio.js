@@ -51,7 +51,7 @@ const MODES = {
 };
 // [key, title, url, chess icon, notBuiltYet] - Super Chess has been removed; the nav
 // button stays visible (same icon) but greyed out and unclickable ("Soon" badge).
-const NAV = [
+let NAV = [
   ['battlegrid', 'Battle Grid', 'http://localhost:3000', 'p', 0],
   ['kings', 'Battle of the Kings', 'http://localhost:3001', 'k', 0],
   ['pieces', 'Pieces with Pieces', 'http://localhost:3002', 'n', 0],
@@ -3230,6 +3230,14 @@ function bootClassic() {
     process.exit(1);
   }
   const PORT = +process.argv[3] || +process.env.PORT || MODES[arg].port;
+  // Update NAV URLs to use the actual port
+  const baseUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+  NAV = [
+    ['battlegrid', 'Battle Grid', baseUrl, 'p', 0],
+    ['kings', 'Battle of the Kings', `${baseUrl.replace(/:\d+$/, '')}:3001`, 'k', 0],
+    ['pieces', 'Pieces with Pieces', `${baseUrl.replace(/:\d+$/, '')}:3002`, 'n', 0],
+    ['superchess', 'Super Chess', '', 'q', 1]
+  ];
   MANIFEST = scanAssets();
   const GAME = new ({ battlegrid: BattleGrid, kings: Kings, pieces: Pieces }[arg])();
   if (process.env.CHESSIO_TEST) { global.__GAME = GAME; global.__FakeConn = FakeConn; global.__registerTest = registerTest; global.__runTests = runTests; }

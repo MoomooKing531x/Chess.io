@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: chess-io
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node chessio.js battlegrid"
+    envVars:
+      - key: PORT
+        value: 3000

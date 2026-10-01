@@ -1,0 +1,19 @@
+{
+  "name": "chess-io",
+  "version": "1.0.0",
+  "description": "Three real-time multiplayer chess games in one file",
+  "main": "chessio.js",
+  "scripts": {
+    "start": "node chessio.js battlegrid",
+    "start:battlegrid": "node chessio.js battlegrid",
+    "start:kings": "node chessio.js kings",
+    "start:pieces": "node chessio.js pieces",
+    "test": "node chessio.js selftest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": ["chess", "multiplayer", "websocket", "game"],
+  "author": "",
+  "license": "ISC"
+}
