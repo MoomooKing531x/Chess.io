@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: chess-io
+    name: chess-io-battlegrid
     env: node
     plan: free
     buildCommand: ""
@@ -8,3 +8,23 @@ services:
     envVars:
       - key: PORT
         value: 3000
+
+  - type: web
+    name: chess-io-kings
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node chessio.js kings"
+    envVars:
+      - key: PORT
+        value: 3001
+
+  - type: web
+    name: chess-io-pieces
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node chessio.js pieces"
+    envVars:
+      - key: PORT
+        value: 3002
