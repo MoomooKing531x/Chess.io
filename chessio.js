@@ -3230,23 +3230,22 @@ function bootClassic() {
     process.exit(1);
   }
   const PORT = +process.argv[3] || +process.env.PORT || MODES[arg].port;
-  // Update NAV URLs to use the actual port
-  const baseUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
-  // For production, use the Render service URLs. For local, use localhost with respective ports
-  if (process.env.RENDER_EXTERNAL_URL) {
-    // In production, each service has its own URL
+  // Use path-based routing when running under the proxy server
+  if (process.env.USE_PATH_ROUTING) {
+    const baseUrl = '';
     NAV = [
-      ['battlegrid', 'Battle Grid', 'https://chess-io-battlegrid.onrender.com', 'p', 0],
-      ['kings', 'Battle of the Kings', 'https://chess-io-kings.onrender.com', 'k', 0],
-      ['pieces', 'Pieces with Pieces', 'https://chess-io-pieces.onrender.com', 'n', 0],
+      ['battlegrid', 'Battle Grid', baseUrl, 'p', 0],
+      ['kings', 'Battle of the Kings', '/kings', 'k', 0],
+      ['pieces', 'Pieces with Pieces', '/pieces', 'n', 0],
       ['superchess', 'Super Chess', '', 'q', 1]
     ];
   } else {
-    // Local development
+    // Standalone mode - use full URLs
+    const baseUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
     NAV = [
-      ['battlegrid', 'Battle Grid', 'http://localhost:3000', 'p', 0],
-      ['kings', 'Battle of the Kings', 'http://localhost:3001', 'k', 0],
-      ['pieces', 'Pieces with Pieces', 'http://localhost:3002', 'n', 0],
+      ['battlegrid', 'Battle Grid', baseUrl, 'p', 0],
+      ['kings', 'Battle of the Kings', `http://localhost:3001`, 'k', 0],
+      ['pieces', 'Pieces with Pieces', `http://localhost:3002`, 'n', 0],
       ['superchess', 'Super Chess', '', 'q', 1]
     ];
   }
