@@ -8,8 +8,8 @@ services:
     envVars:
       - key: PORT
         value: 3000
-      - key: RENDER_SERVICE_NAME
-        value: moomoochess-battlegrid
+      - key: RENDER
+        value: "true"
 
   - type: web
     name: moomoochess-kings
@@ -20,8 +20,8 @@ services:
     envVars:
       - key: PORT
         value: 3001
-      - key: RENDER_SERVICE_NAME
-        value: moomoochess-kings
+      - key: RENDER
+        value: "true"
 
   - type: web
     name: moomoochess-pieces
@@ -32,5 +32,5 @@ services:
     envVars:
       - key: PORT
         value: 3002
-      - key: RENDER_SERVICE_NAME
-        value: moomoochess-pieces
+      - key: RENDER
+        value: "true"

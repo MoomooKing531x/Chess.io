@@ -8,7 +8,6 @@
     "start:battlegrid": "node chessio.js battlegrid",
     "start:kings": "node chessio.js kings",
     "start:pieces": "node chessio.js pieces",
-    "start:all": "node start-all.js",
     "test": "node chessio.js selftest"
   },
   "engines": {

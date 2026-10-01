@@ -1963,7 +1963,8 @@ function clientMain() {
     fade.classList.add('fading');
     setTimeout(() => {
       $('menu').style.display = 'none';
-      const ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws'); S.ws = ws;
+      const wsUrl = window.__WS_URL__ || ((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws');
+      const ws = new WebSocket(wsUrl); S.ws = ws;
       ws.onopen = () => ws.send(JSON.stringify({ t: 'join', name: $('name').value, side: S.side }));
       ws.onmessage = e => { try { onMsg(JSON.parse(e.data)); } catch (er) { console.error(er); } };
       ws.onclose = () => { if (S.playing) showEnd('Disconnected from server'); else { S.ws = null; $('play').textContent = 'Play'; } };
@@ -3200,7 +3201,23 @@ function pageHtml(mode) {
   const g = mode === 'battlegrid' ? GRID : mode === 'pieces' ? PWP : KOTK;
   const cfg = { mode, title: MODES[mode].title, nav: NAV, pieces: BAL.pieces, g, kv: KV, tagEmoji: TAG_EMOJI, usePng: ICONS.usePng };
   const json = JSON.stringify(cfg).replace(/</g, '\\u003c');
+  // Inject WebSocket URL to ensure it connects to the correct service
+  // On Render, use the service's own URL; on localhost, use localhost with the port
+  const isRender = process.env.RENDER === 'true' || process.env.RENDER_EXTERNAL_URL !== undefined;
+  let wsUrl;
+  if (isRender) {
+    // Use the hardcoded service URL for this mode
+    const serviceUrls = {
+      battlegrid: 'https://moomoochess-battlegrid.onrender.com',
+      kings: 'https://moomoochess-kings.onrender.com',
+      pieces: 'https://moomoochess-pieces.onrender.com'
+    };
+    wsUrl = serviceUrls[mode].replace(/^https:/, 'wss:');
+  } else {
+    wsUrl = `ws://localhost:${MODES[mode].port}`;
+  }
   return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MoomooChess.io - ' + MODES[mode].title + '</title><style>' + CSS + '</style></head><body>' +
+    '<script>window.__WS_URL__ = "' + wsUrl + '/ws";</script>' +
     '<div id="fade"></div>' +
     '<canvas id="bg"></canvas><canvas id="game"></canvas>' +
     '<div id="menu"><div class="card"><div class="logo">MoomooChess<span>.io</span></div><div class="sub" id="modeTitle"></div>' +
@@ -3230,9 +3247,9 @@ function bootClassic() {
     process.exit(1);
   }
   const PORT = +process.argv[3] || +process.env.PORT || MODES[arg].port;
-  // Use Render service URLs in production, localhost in development
-  // Check if we're running on Render by looking for RENDER_EXTERNAL_URL
-  const isRender = !!process.env.RENDER_EXTERNAL_URL;
+  // Always use localhost URLs in development, hardcoded Render URLs in production
+  // Check if we're on Render by checking if PORT is not the default
+  const isRender = process.env.RENDER === 'true' || process.env.RENDER_EXTERNAL_URL !== undefined;
 
   if (isRender) {
     // On Render, use hardcoded service URLs
