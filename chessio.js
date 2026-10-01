@@ -3231,7 +3231,11 @@ function bootClassic() {
   }
   const PORT = +process.argv[3] || +process.env.PORT || MODES[arg].port;
   // Use Render service URLs in production, localhost in development
-  if (process.env.RENDER_EXTERNAL_URL) {
+  // Check if we're running on Render by looking for RENDER_EXTERNAL_URL
+  const isRender = !!process.env.RENDER_EXTERNAL_URL;
+
+  if (isRender) {
+    // On Render, use hardcoded service URLs
     NAV = [
       ['battlegrid', 'Battle Grid', 'https://moomoochess-battlegrid.onrender.com', 'p', 0],
       ['kings', 'Battle of the Kings', 'https://moomoochess-kings.onrender.com', 'k', 0],
