@@ -8,7 +8,7 @@ const MODES = ['battlegrid', 'kings', 'pieces'];
 const processes = {};
 const ports = { battlegrid: 3000, kings: 3001, pieces: 3002 };
 
-console.log('Starting all Chess.io game modes...');
+console.log('Starting all MoomooChess.io game modes...');
 
 MODES.forEach(mode => {
   const proc = spawn('node', ['chessio.js', mode, ports[mode].toString()], {

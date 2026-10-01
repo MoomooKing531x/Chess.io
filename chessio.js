@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 /*
- CHESS.IO - three SEPARATE real-time multiplayer games in ONE file.
+ MOOMOOCHESS.IO - three SEPARATE real-time multiplayer games in ONE file.
  (Super Chess has been removed. Its nav button still shows on the other games'
  menus with the same icon, greyed out and marked "Soon" - not clickable.)
 
@@ -3200,10 +3200,10 @@ function pageHtml(mode) {
   const g = mode === 'battlegrid' ? GRID : mode === 'pieces' ? PWP : KOTK;
   const cfg = { mode, title: MODES[mode].title, nav: NAV, pieces: BAL.pieces, g, kv: KV, tagEmoji: TAG_EMOJI, usePng: ICONS.usePng };
   const json = JSON.stringify(cfg).replace(/</g, '\\u003c');
-  return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chess.io - ' + MODES[mode].title + '</title><style>' + CSS + '</style></head><body>' +
+  return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MoomooChess.io - ' + MODES[mode].title + '</title><style>' + CSS + '</style></head><body>' +
     '<div id="fade"></div>' +
     '<canvas id="bg"></canvas><canvas id="game"></canvas>' +
-    '<div id="menu"><div class="card"><div class="logo">Chess<span>.io</span></div><div class="sub" id="modeTitle"></div>' +
+    '<div id="menu"><div class="card"><div class="logo">MoomooChess<span>.io</span></div><div class="sub" id="modeTitle"></div>' +
     '<input id="name" maxlength="16" placeholder="Nickname" autocomplete="off"><div class="row" id="kings"></div>' +
     '<div class="lab">Board style</div><div class="themes" id="themes"></div><button id="play">Play</button><div class="lab">Other games</div><div class="gcards" id="nav"></div></div></div>' +
     '<div id="hud"><div id="lb" class="shadowtxt"><h4>Leaderboard - ELO</h4><div id="lbrows"></div><div id="killCounter">Kills <b id="killValue">0</b></div></div><div id="stats" class="shadowtxt"></div>' +

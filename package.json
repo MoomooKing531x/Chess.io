@@ -1,7 +1,7 @@
 {
-  "name": "chess-io",
+  "name": "moomoochess",
   "version": "1.0.0",
-  "description": "Three real-time multiplayer chess games in one file",
+  "description": "MoomooChess.io - Three real-time multiplayer chess games in one file",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "keywords": ["chess", "multiplayer", "websocket", "game"],
+  "keywords": ["chess", "multiplayer", "websocket", "game", "moomoochess"],
   "author": "",
   "license": "ISC"
 }

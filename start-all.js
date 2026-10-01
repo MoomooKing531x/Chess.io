@@ -5,7 +5,7 @@ const { spawn } = require('child_process');
 const MODES = ['battlegrid', 'kings', 'pieces'];
 const processes = [];
 
-console.log('Starting all Chess.io game modes...');
+console.log('Starting all MoomooChess.io game modes...');
 
 MODES.forEach(mode => {
   const proc = spawn('node', ['chessio.js', mode], {

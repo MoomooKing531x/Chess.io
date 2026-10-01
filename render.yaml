@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: chess-io
+    name: moomoochess
     env: node
     plan: free
     buildCommand: ""
