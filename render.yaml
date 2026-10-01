@@ -1,7 +1,30 @@
 services:
   - type: web
-    name: moomoochess
+    name: moomoochess-battlegrid
     env: node
     plan: free
     buildCommand: ""
-    startCommand: "node server.js"
+    startCommand: "node chessio.js battlegrid"
+    envVars:
+      - key: PORT
+        value: 3000
+
+  - type: web
+    name: moomoochess-kings
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node chessio.js kings"
+    envVars:
+      - key: PORT
+        value: 3001
+
+  - type: web
+    name: moomoochess-pieces
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node chessio.js pieces"
+    envVars:
+      - key: PORT
+        value: 3002

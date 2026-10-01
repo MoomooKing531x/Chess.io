@@ -2,9 +2,9 @@
   "name": "moomoochess",
   "version": "1.0.0",
   "description": "MoomooChess.io - Three real-time multiplayer chess games in one file",
-  "main": "server.js",
+  "main": "chessio.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node chessio.js battlegrid",
     "start:battlegrid": "node chessio.js battlegrid",
     "start:kings": "node chessio.js kings",
     "start:pieces": "node chessio.js pieces",
