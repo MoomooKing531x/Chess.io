@@ -1,10 +1,10 @@
 {
   "name": "moomoochess",
   "version": "1.0.0",
-  "description": "MoomooChess.io - Three real-time multiplayer chess games in one file",
+  "description": "Chess.io - Three real-time multiplayer chess games in one file",
   "main": "chessio.js",
   "scripts": {
-    "start": "node chessio.js battlegrid",
+    "start": "node server.js",
     "start:all": "node start-all.js",
     "start:battlegrid": "node chessio.js battlegrid",
     "start:kings": "node chessio.js kings",
@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "keywords": ["chess", "multiplayer", "websocket", "game", "moomoochess"],
+  "keywords": ["chess", "multiplayer", "websocket", "game"],
   "author": "",
   "license": "ISC"
 }
