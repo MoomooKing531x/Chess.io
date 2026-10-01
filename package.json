@@ -5,6 +5,7 @@
   "main": "chessio.js",
   "scripts": {
     "start": "node chessio.js battlegrid",
+    "start:all": "node start-all.js",
     "start:battlegrid": "node chessio.js battlegrid",
     "start:kings": "node chessio.js kings",
     "start:pieces": "node chessio.js pieces",
